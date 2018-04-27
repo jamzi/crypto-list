@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import Settings from '@material-ui/icons/Settings';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const styles = {
     flex: {
@@ -18,10 +18,14 @@ const styles = {
     title: {
         textDecoration: 'none',
         color: '#fff'
+    },
+    rightSide: {
+        display: 'flex',
+        alignItems: 'center'
     }
 };
 
-const Header = ({ classes }) => (
+const Header = ({ classes, selectedFiatCurrency }) => (
     <AppBar position="static">
         <Toolbar>
             <Typography variant="title" color="inherit" className={classes.flex}>
@@ -29,7 +33,8 @@ const Header = ({ classes }) => (
                     Crypto List
                 </Link>
             </Typography>
-            <div>
+            <div className={classes.rightSide}>
+                <div>{ selectedFiatCurrency }</div>
                 <Link to="/settings">
                     <IconButton className={classes.settingsIcon}>
                         <Settings />
@@ -40,8 +45,8 @@ const Header = ({ classes }) => (
     </AppBar>
 );
 
-Header.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
+const mapStateToProps = (state, ownProps) => ({
+    selectedFiatCurrency: state.settings.fiatCurrency
+});
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(connect(mapStateToProps)(Header));

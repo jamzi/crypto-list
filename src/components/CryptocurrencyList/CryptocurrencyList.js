@@ -1,8 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Button from 'material-ui/Button';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { CircularProgress } from 'material-ui/Progress';
+
+import { fetchCryptocurrencies } from './../../actions';
 
 const styles = theme => ({
     root: {
@@ -11,27 +15,62 @@ const styles = theme => ({
     button: {
         margin: theme.spacing.unit,
         width: '99%'
+    },
+    currencyLink: {
+        textDecoration: 'none',
+        color: '#000'
+    },
+    spinner: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '20px'
     }
 });
 
-const CryptocurrencyList = ({ classes }) => (
-    <div className={classes.root}>
-        <Button variant="raised" className={classes.button} fullWidth>
-            Refresh
-        </Button>
-        <List component="nav">
-            <ListItem button>
-                <ListItemText primary="Currency1" />
-            </ListItem>
-            <ListItem button>
-                <ListItemText primary="Currency2" />
-            </ListItem>
-        </List>
-    </div>
-);
+class CryptocurrencyList extends Component {
+    componentDidMount() {
+        this.handleFetchCryptocurrencies();
+    }
+    
+    handleFetchCryptocurrencies() {
+        const { dispatch, selectedFiatCurrency } = this.props;
+        dispatch(fetchCryptocurrencies(selectedFiatCurrency));
+    }
+    
+    render() {
+        const { currencies = [], isFetching, classes, selectedFiatCurrency } = this.props;
 
-CryptocurrencyList.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
+        return (
+            <div className={classes.root}>
+                <Button variant="raised" className={classes.button} fullWidth onClick={this.handleFetchCryptocurrencies.bind(this)}>
+                    Refresh
+                </Button>
+                {isFetching ?
+                    <div className={classes.spinner}>
+                        <CircularProgress />
+                    </div> :
+                    <List>
+                        {currencies.map((currency) => {
+                            const currencyText = `${currency.rank} | ${currency.symbol} | ${currency[`price_${selectedFiatCurrency.toLowerCase()}`]} (${selectedFiatCurrency}) | ${currency.percent_change_24h}% (24h)`;
+                            const currencyDetailLink = `/currency/${currency.id}`;
+                            return (
+                                <Link to={currencyDetailLink} key={currency.id} className={classes.currencyLink}>
+                                    <ListItem button>
+                                        <ListItemText primary={currencyText} />
+                                    </ListItem>
+                                </Link>
+                            )
+                        })}
+                    </List>}
+            </div>
+        );
+    }
+}
 
-export default withStyles(styles)(CryptocurrencyList);
+const mapStateToProps = state => ({
+    currencies: state.currencies.cryptocurrencies,
+    isFetching: state.currencies.isFetching,
+    selectedFiatCurrency: state.settings.fiatCurrency
+});
+
+export default withStyles(styles)(connect(mapStateToProps)(CryptocurrencyList));
