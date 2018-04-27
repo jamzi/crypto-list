@@ -4,15 +4,19 @@ import {
   BrowserRouter as Router,
   Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import rootReducer from './../../reducers';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk'
 
+import rootReducer from './../../reducers';
 import Header from '../Header/Header';
 import CryptocurrencyList from '../CryptocurrencyList/CryptocurrencyList';
 import CryptocurrencyDetails from '../CryptocurrencyDetails/CryptocurrencyDetails';
 import Settings from '../Settings/Settings';
 
-const store = createStore(rootReducer)
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunkMiddleware)
+);
 
 class App extends Component {
   render() {

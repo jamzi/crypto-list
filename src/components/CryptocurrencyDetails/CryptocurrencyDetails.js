@@ -45,7 +45,7 @@ CryptocurrencyDetails.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-    currency: state.cryptoCurrencies.currencies.find((currency) => currency.id === ownProps.match.params.currencyId)
+    currency: state.cryptocurrencies.currencies.find((currency) => currency.id === ownProps.match.params.currencyId)
 });
 
 export default withStyles(styles)(connect(mapStateToProps)(CryptocurrencyDetails));
