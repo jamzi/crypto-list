@@ -6,10 +6,14 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import Settings from '@material-ui/icons/Settings';
+import { Link } from 'react-router-dom'
 
 const styles = {
     flex: {
         flex: 1,
+    },
+    settingsIcon: {
+        color: '#fff'
     }
 };
 
@@ -20,12 +24,11 @@ const Header = ({ classes }) => (
                 Crypto List
             </Typography>
             <div>
-                <IconButton
-                    onClick={this.handleMenu}
-                    color="inherit"
-                >
-                    <Settings />
-                </IconButton>
+                <Link to="/settings">
+                    <IconButton className={classes.settingsIcon}>
+                        <Settings />
+                    </IconButton>
+                </Link>
             </div>
         </Toolbar>
     </AppBar>
