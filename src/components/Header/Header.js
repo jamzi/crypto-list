@@ -14,6 +14,10 @@ const styles = {
     },
     settingsIcon: {
         color: '#fff'
+    },
+    title: {
+        textDecoration: 'none',
+        color: '#fff'
     }
 };
 
@@ -21,7 +25,9 @@ const Header = ({ classes }) => (
     <AppBar position="static">
         <Toolbar>
             <Typography variant="title" color="inherit" className={classes.flex}>
-                Crypto List
+                <Link to="" className={classes.title}>
+                    Crypto List
+                </Link>
             </Typography>
             <div>
                 <Link to="/settings">
