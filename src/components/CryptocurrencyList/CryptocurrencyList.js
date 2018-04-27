@@ -34,12 +34,12 @@ class CryptocurrencyList extends Component {
     }
     
     handleFetchCryptocurrencies() {
-        const { dispatch } = this.props;
-        dispatch(fetchCryptocurrencies());
+        const { dispatch, selectedFiatCurrency } = this.props;
+        dispatch(fetchCryptocurrencies(selectedFiatCurrency));
     }
     
     render() {
-        const { currencies = [], isFetching, classes } = this.props;
+        const { currencies = [], isFetching, classes, selectedFiatCurrency } = this.props;
 
         return (
             <div className={classes.root}>
@@ -52,7 +52,7 @@ class CryptocurrencyList extends Component {
                     </div> :
                     <List>
                         {currencies.map((currency) => {
-                            const currencyText = `${currency.name} | ${currency.rank} | ${currency.symbol} | ${currency.price_usd} | ${currency['24h_volume_usd']}`;
+                            const currencyText = `${currency.rank} | ${currency.symbol} | ${currency[`price_${selectedFiatCurrency.toLowerCase()}`]} (${selectedFiatCurrency}) | ${currency.percent_change_24h}% (24h)`;
                             const currencyDetailLink = `/currency/${currency.id}`;
                             return (
                                 <Link to={currencyDetailLink} key={currency.id} className={classes.currencyLink}>
@@ -74,7 +74,8 @@ CryptocurrencyList.propTypes = {
 
 const mapStateToProps = state => ({
     currencies: state.currencies.cryptocurrencies,
-    isFetching: state.currencies.isFetching
+    isFetching: state.currencies.isFetching,
+    selectedFiatCurrency: state.settings.fiatCurrency
 });
 
 export default withStyles(styles)(connect(mapStateToProps)(CryptocurrencyList));

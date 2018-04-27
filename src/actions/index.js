@@ -1,7 +1,7 @@
 export const SET_FIAT_CURRENCY = 'SET_FIAT_CURRENCY';
 
 export const REQUEST_CRYPTOCURRENCY = 'REQUEST_CRYPTOCURRENCY';
-export function requestCryptocurrency(currencyId) {
+export function requestCryptocurrency(currencyId, fiatCurrency) {
     return { type: REQUEST_CRYPTOCURRENCY, currencyId }
 };
 
@@ -11,8 +11,8 @@ export function receiveCryptocurrency(cryptocurrency) {
 };
 
 export const REQUEST_CRYPTOCURRENCIES = 'REQUEST_CRYPTOCURRENCIES';
-export function requestCryptocurrencies() {
-    return { type: REQUEST_CRYPTOCURRENCIES }
+export function requestCryptocurrencies(fiatCurrency) {
+    return { type: REQUEST_CRYPTOCURRENCIES, fiatCurrency }
 };
 
 export const RECEIVE_CRYPTOCURRENCIES = 'RECEIVE_CRYPTOCURRENCIES';
@@ -24,10 +24,10 @@ export function setFiatCurrency(fiatCurrency) {
     return { type: SET_FIAT_CURRENCY, fiatCurrency }
 };
 
-export function fetchCryptocurrency(currencyId) {
+export function fetchCryptocurrency(currencyId, fiatCurrency) {
     return function (dispatch) {
-        dispatch(requestCryptocurrency(currencyId))
-        return fetch(`https://api.coinmarketcap.com/v1/ticker/${currencyId}/`)
+        dispatch(requestCryptocurrency(currencyId, fiatCurrency))
+        return fetch(`https://api.coinmarketcap.com/v1/ticker/${currencyId}/?convert=${fiatCurrency}`)
             .then(
                 response => response.json(),
                 error => console.log('An error occurred.', error)
@@ -38,10 +38,10 @@ export function fetchCryptocurrency(currencyId) {
     }
 }
 
-export function fetchCryptocurrencies() {
+export function fetchCryptocurrencies(fiatCurrency) {
     return function (dispatch) {
-        dispatch(requestCryptocurrencies())
-        return fetch(`https://api.coinmarketcap.com/v1/ticker/`)
+        dispatch(requestCryptocurrencies(fiatCurrency))
+        return fetch(`https://api.coinmarketcap.com/v1/ticker/?convert=${fiatCurrency}`)
             .then(
                 response => response.json(),
                 error => console.log('An error occurred.', error)

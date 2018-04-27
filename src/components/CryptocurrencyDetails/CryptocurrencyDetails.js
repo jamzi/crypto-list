@@ -36,16 +36,16 @@ class CryptocurrencyDetails extends Component {
     }    
     
     handleFetchCryptocurrency() {
-        const { dispatch, match, hasCryptocurrencies } = this.props;
+        const { dispatch, match, hasCryptocurrencies, selectedFiatCurrency } = this.props;
         if (hasCryptocurrencies) {
-            dispatch(fetchCryptocurrency(match.params.currencyId));
+            dispatch(fetchCryptocurrency(match.params.currencyId), selectedFiatCurrency);
         } else {
-            dispatch(fetchCryptocurrencies());
+            dispatch(fetchCryptocurrencies(selectedFiatCurrency));
         }
     }
     
     render() {
-        const { currency = {}, classes, isFetching } = this.props;
+        const { currency = {}, classes, isFetching, selectedFiatCurrency } = this.props;
 
         return (
             <div className={classes.root}>
@@ -60,10 +60,13 @@ class CryptocurrencyDetails extends Component {
                         <Typography variant="headline" component="h3">
                             {`${currency.name} (${currency.symbol}) - rank: ${currency.rank}`}
                         </Typography>
-                        <Typography component="p">
-                            {`price: ${currency.price_usd} - bitcoin price: ${currency.price_btc}`} <br />
-                            {`1h change: ${currency.percent_change_1h}%, 24h change: ${currency.percent_change_24h}%, 7d change: ${currency.percent_change_7d}%`} <br />
-                            {`available supply: ${currency.available_supply}, total supply: ${currency.total_supply}`}
+                        <Typography component="li">
+                            <p>{`price: ${currency[`price_${selectedFiatCurrency.toLowerCase()}`]} (${selectedFiatCurrency})`} </p>
+                            <p>{`24h volume: ${currency[`24h_volume_${selectedFiatCurrency.toLowerCase()}`]} (${selectedFiatCurrency})`} </p>
+                            <p>{`market cap: ${currency[`market_cap_${selectedFiatCurrency.toLowerCase()}`]} (${selectedFiatCurrency})`} </p>
+                            <p>{`bitcoin price: ${currency.price_btc}`} </p>
+                            <p>{`1h change: ${currency.percent_change_1h}%, 24h change: ${currency.percent_change_24h}%, 7d change: ${currency.percent_change_7d}%`} </p>
+                            <p>{`available supply: ${currency.available_supply}, total supply: ${currency.total_supply}`}</p>
                         </Typography>
                     </Paper>
                 }
@@ -79,7 +82,8 @@ CryptocurrencyDetails.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
     currency: state.currencies.cryptocurrencies.find((currency) => currency.id === ownProps.match.params.currencyId),
     hasCryptocurrencies: state.currencies.cryptocurrencies.length,
-    isFetching: state.currencies.isFetching
+    isFetching: state.currencies.isFetching,
+    selectedFiatCurrency: state.settings.fiatCurrency
 });
 
 export default withStyles(styles)(connect(mapStateToProps)(CryptocurrencyDetails));
