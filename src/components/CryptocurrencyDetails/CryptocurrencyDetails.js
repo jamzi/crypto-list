@@ -7,9 +7,13 @@ import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 
 const styles = theme => ({
-    root: theme.mixins.gutters({
+    root: {
+        width: '100%'
+    },
+    paper: theme.mixins.gutters({
         paddingTop: 16,
         paddingBottom: 16,
+        margin: theme.spacing.unit,
         marginTop: theme.spacing.unit * 3,
     }),
     button: {
@@ -23,7 +27,7 @@ const CryptocurrencyDetails = ({ match, currency, classes }) => (
         <Button variant="raised" className={classes.button} fullWidth>
             Refresh
         </Button>
-        <Paper className={classes.root} elevation={4}>
+        <Paper className={classes.paper} elevation={4}>
             <Typography variant="headline" component="h3">
                 { `${currency.name} (${currency.symbol}) - rank: ${currency.rank}` }
         </Typography>
