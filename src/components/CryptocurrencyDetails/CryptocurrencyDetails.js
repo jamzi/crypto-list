@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import { connect } from 'react-redux';
@@ -74,10 +73,6 @@ class CryptocurrencyDetails extends Component {
         )
     }
 }
-
-CryptocurrencyDetails.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = (state, ownProps) => ({
     currency: state.currencies.cryptocurrencies.find((currency) => currency.id === ownProps.match.params.currencyId),

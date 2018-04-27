@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Button from 'material-ui/Button';
@@ -67,10 +66,6 @@ class CryptocurrencyList extends Component {
         );
     }
 }
-
-CryptocurrencyList.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = state => ({
     currencies: state.currencies.cryptocurrencies,

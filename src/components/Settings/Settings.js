@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form';
@@ -20,7 +19,7 @@ const styles = theme => ({
 
 const Settings = ({ fiatCurrency, changeFiatCurrency, classes }) => (
     <div className={classes.root}>
-        <FormControl component="fieldset" className={classes.formControl}>
+        <FormControl component="fieldset" className={classes.formControl} fullWidth>
             <FormLabel component="legend">Currency</FormLabel>
             <RadioGroup
                 aria-label="currency"
@@ -36,10 +35,6 @@ const Settings = ({ fiatCurrency, changeFiatCurrency, classes }) => (
         </FormControl>
     </div>
 );
-
-Settings.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = state => ({
     fiatCurrency: state.settings.fiatCurrency

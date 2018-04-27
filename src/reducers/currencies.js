@@ -10,25 +10,25 @@ const currencies = (state = initialState, action) => {
         case REQUEST_CRYPTOCURRENCY:
             return Object.assign({}, state, {
                 isFetching: true
-            })
+            });
         case RECEIVE_CRYPTOCURRENCY:
             return Object.assign({}, state, {
                 isFetching: false,
                 cryptocurrencies: updateObjectInArray(state.cryptocurrencies, action.cryptocurrency.id)
-            })
+            });
         case REQUEST_CRYPTOCURRENCIES:
             return Object.assign({}, state, {
                 isFetching: true
-            })
+            });
         case RECEIVE_CRYPTOCURRENCIES:
             return Object.assign({}, state, {
                 isFetching: false,
                 cryptocurrencies: action.cryptocurrencies
-            })
+            });
         default:
             return state;
-    };
-};
+    }
+}
 
 function updateObjectInArray(array, action) {
     return array.map((item, index) => {
