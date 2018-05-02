@@ -1,5 +1,3 @@
-export const SET_FIAT_CURRENCY = 'SET_FIAT_CURRENCY';
-
 export const REQUEST_CRYPTOCURRENCY = 'REQUEST_CRYPTOCURRENCY';
 export function requestCryptocurrency(currencyId, fiatCurrency) {
     return { type: REQUEST_CRYPTOCURRENCY, currencyId }
@@ -20,6 +18,7 @@ export function receiveCryptocurrencies(cryptocurrencies) {
     return { type: RECEIVE_CRYPTOCURRENCIES, cryptocurrencies }
 };
 
+export const SET_FIAT_CURRENCY = 'SET_FIAT_CURRENCY';
 export function setFiatCurrency(fiatCurrency) {
     return { type: SET_FIAT_CURRENCY, fiatCurrency }
 };

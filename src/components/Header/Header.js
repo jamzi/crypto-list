@@ -25,17 +25,17 @@ const styles = {
     }
 };
 
-const Header = ({ classes, selectedFiatCurrency }) => (
+export const Header = ({ classes, selectedFiatCurrency }) => (
     <AppBar position="static">
         <Toolbar>
             <Typography variant="title" color="inherit" className={classes.flex}>
                 <Link to="" className={classes.title}>
-                    Crypto List
+                    <h3>Crypto List</h3>
                 </Link>
             </Typography>
             <div className={classes.rightSide}>
-                <div>{ selectedFiatCurrency }</div>
-                <Link to="/settings">
+                <div className="selectedFiatCurrency">{ selectedFiatCurrency }</div>
+                <Link className="settingsLink" to="/settings">
                     <IconButton className={classes.settingsIcon}>
                         <Settings />
                     </IconButton>
