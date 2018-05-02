@@ -5,6 +5,7 @@ import Button from 'material-ui/Button';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { CircularProgress } from 'material-ui/Progress';
+import PropTypes from 'prop-types';
 
 import { fetchCryptocurrencies } from './../../actions';
 
@@ -31,12 +32,12 @@ class CryptocurrencyList extends Component {
     componentDidMount() {
         this.handleFetchCryptocurrencies();
     }
-    
+
     handleFetchCryptocurrencies() {
         const { dispatch, selectedFiatCurrency } = this.props;
         dispatch(fetchCryptocurrencies(selectedFiatCurrency));
     }
-    
+
     render() {
         const { currencies = [], isFetching, classes, selectedFiatCurrency } = this.props;
 
@@ -72,5 +73,12 @@ const mapStateToProps = state => ({
     isFetching: state.currencies.isFetching,
     selectedFiatCurrency: state.settings.fiatCurrency
 });
+
+CryptocurrencyList.propTypes = {
+    classes: PropTypes.object.isRequired,
+    selectedFiatCurrency: PropTypes.string.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    currencies: PropTypes.array.isRequired
+};
 
 export default withStyles(styles)(connect(mapStateToProps)(CryptocurrencyList));

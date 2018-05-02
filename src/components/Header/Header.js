@@ -7,6 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import Settings from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const styles = {
     flex: {
@@ -34,7 +35,7 @@ export const Header = ({ classes, selectedFiatCurrency }) => (
                 </Link>
             </Typography>
             <div className={classes.rightSide}>
-                <div className="selectedFiatCurrency">{ selectedFiatCurrency }</div>
+                <div className="selectedFiatCurrency">{selectedFiatCurrency}</div>
                 <Link className="settingsLink" to="/settings">
                     <IconButton className={classes.settingsIcon}>
                         <Settings />
@@ -48,5 +49,10 @@ export const Header = ({ classes, selectedFiatCurrency }) => (
 const mapStateToProps = (state, ownProps) => ({
     selectedFiatCurrency: state.settings.fiatCurrency
 });
+
+Header.propTypes = {
+    classes: PropTypes.object.isRequired,
+    selectedFiatCurrency: PropTypes.string.isRequired
+};
 
 export default withStyles(styles)(connect(mapStateToProps)(Header));

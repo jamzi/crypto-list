@@ -3,6 +3,8 @@ import { withStyles } from 'material-ui/styles';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { setFiatCurrency } from '../../actions';
 
 const styles = theme => ({
@@ -46,5 +48,9 @@ const mapDispatchToProps = dispatch => ({
         dispatch(setFiatCurrency(selectedFiatCurrency));
     },
 });
+
+Settings.propTypes = {
+    fiatCurrency: PropTypes.string.isRequired
+};
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Settings));

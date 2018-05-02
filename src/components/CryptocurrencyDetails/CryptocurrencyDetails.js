@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import { CircularProgress } from 'material-ui/Progress';
+import PropTypes from 'prop-types';
 
 import { fetchCryptocurrency, fetchCryptocurrencies } from './../../actions';
 
@@ -32,8 +33,8 @@ const styles = theme => ({
 class CryptocurrencyDetails extends Component {
     componentDidMount() {
         this.handleFetchCryptocurrency();
-    }    
-    
+    }
+
     handleFetchCryptocurrency() {
         const { dispatch, match, hasCryptocurrencies, selectedFiatCurrency } = this.props;
         if (hasCryptocurrencies) {
@@ -42,7 +43,7 @@ class CryptocurrencyDetails extends Component {
             dispatch(fetchCryptocurrencies(selectedFiatCurrency));
         }
     }
-    
+
     render() {
         const { currency = {}, classes, isFetching, selectedFiatCurrency } = this.props;
 
@@ -51,7 +52,7 @@ class CryptocurrencyDetails extends Component {
                 <Button variant="raised" className={classes.button} fullWidth onClick={this.handleFetchCryptocurrency.bind(this)}>
                     Refresh
                 </Button>
-                { isFetching ?
+                {isFetching ?
                     <div className={classes.spinner}>
                         <CircularProgress />
                     </div> :
@@ -75,10 +76,18 @@ class CryptocurrencyDetails extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    currency: state.currencies.cryptocurrencies.find((currency) => currency.id === ownProps.match.params.currencyId),
+    currency: state.currencies.cryptocurrencies.find((currency) => currency.id === ownProps.match.params.currencyId) || {},
     hasCryptocurrencies: state.currencies.cryptocurrencies.length,
     isFetching: state.currencies.isFetching,
     selectedFiatCurrency: state.settings.fiatCurrency
 });
+
+CryptocurrencyDetails.propTypes = {
+    classes: PropTypes.object.isRequired,
+    selectedFiatCurrency: PropTypes.string.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    currency: PropTypes.object.isRequired,
+    hasCryptocurrencies: PropTypes.number.isRequired,
+};
 
 export default withStyles(styles)(connect(mapStateToProps)(CryptocurrencyDetails));
